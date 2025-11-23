@@ -1,4 +1,4 @@
-// Package hwpcat provides functionality to read and render HWP (Hangul Word Processor) documents.
+// Package hwp provides functionality to read and render HWP (Hangul Word Processor) documents.
 //
 // This package supports both binary HWP v5 format (.hwp) and XML-based HWPX format (.hwpx).
 // It extracts text content and renders tables with ASCII borders to plain text output.
@@ -12,7 +12,7 @@
 //	defer file.Close()
 //
 //	// Auto-detect format and render to stdout
-//	if err := hwpcat.Read(file, os.Stdout); err != nil {
+//	if err := hwp.Read(file, os.Stdout); err != nil {
 //		log.Fatal(err)
 //	}
 //
@@ -27,7 +27,7 @@
 //   - OWPML (Open Word-processor Markup Language) parsing
 //   - Full table support with cell merging
 //   - Section-based document structure
-package hwpcat
+package hwp
 
 import (
 	"fmt"
@@ -53,7 +53,7 @@ import (
 //
 //	file, _ := os.Open("document.hwp")
 //	defer file.Close()
-//	hwpcat.ReadHWP(file, os.Stdout)
+//	hwp.ReadHWP(file, os.Stdout)
 func ReadHWP(in io.Reader, out io.Writer) error {
 	file, ok := in.(*os.File)
 	if !ok {
@@ -85,7 +85,7 @@ func ReadHWP(in io.Reader, out io.Writer) error {
 //	file, _ := os.Open("document.hwpx")
 //	defer file.Close()
 //	info, _ := file.Stat()
-//	hwpcat.ReadHWPX(file, info.Size(), os.Stdout)
+//	hwp.ReadHWPX(file, info.Size(), os.Stdout)
 func ReadHWPX(in io.ReaderAt, size int64, out io.Writer) error {
 	reader, err := hwpx.Open(in, size)
 	if err != nil {
@@ -116,7 +116,7 @@ func ReadHWPX(in io.ReaderAt, size int64, out io.Writer) error {
 //
 //	file, _ := os.Open("document.hwp")  // or document.hwpx
 //	defer file.Close()
-//	hwpcat.Read(file, os.Stdout)
+//	hwp.Read(file, os.Stdout)
 func Read(file *os.File, out io.Writer) error {
 	fileInfo, err := file.Stat()
 	if err != nil {
